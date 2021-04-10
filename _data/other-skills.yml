@@ -1,0 +1,12 @@
+- name: Datamodellering
+  percentage: 95
+  color: info
+
+- name: Utvecklingsprocesser och ramverk
+  percentage: 90
+  color: success
+
+- name: Gränssnittsarbete
+  percentage: 90
+  color: success
+

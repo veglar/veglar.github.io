@@ -1,0 +1,11 @@
+- name: QlikView
+  percentage: 95
+  color: danger
+
+- name: Qlik Sense
+  percentage: 85
+  color:
+
+- name: Qlik NPrinting
+  percentage: 70
+  color: dark
