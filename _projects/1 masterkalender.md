@@ -156,9 +156,9 @@ ENDSUB
 SUB kalenderlänk(vL.kalender.faktatabell, vL.kalender.datumfält, vL.kalender.datumnyckel, vL.kalender.linkID)
 /**
 Skapar länkkalender med fälten, 
-[Fält som ska kopplas mot Fakta] 	- @Param 4
-[Typ av datum] 						- fälten som skickas in i @Param 2 ex ([Fält 1], [Fält 2], [Fält 3]
-[Länkfält till kalender] 			- @Param 3
+[Fält som ska kopplas mot Fakta] - @Param 4
+[Typ av datum] 	- fälten som skickas in i @Param 2 ex ([Fält 1], [Fält 2], [Fält 3]
+[Länkfält till kalender] - @Param 3
 
 @syntax CALL kalenderlänk(vL.kalender.faktatabell, vL.kalender.datumfält, vL.kalender.datumnyckel, _RowId)
 @Syntax CALL kalenderlänk('Fact','[Date (Booking)], [Date (Start)]','%DateKey','TransactionID');
