@@ -38,9 +38,9 @@ Alla dessa anrop skapar en kalender som innehåller följande fält, med undanta
 | Fält            | Kommentar|
 | --------------- | ----------|
 | Datum           | Formaterad som angett i systemvariabeln `DateFormat`.
-| Veckodag		  | Veckodag, första veckodag styrs av systemvariabel `FirstWeekDay` (0-6). |
-| Vecka   	      | Veckonummer, presenteras med veckonummer där januari är årets första månad, men sorteras utifrån vad som är årets första månad via systemvariabeln `FirstMonthOfYear.` Fältet påverkas också av systemvariablerna `FirstWeekDay`, `BrokenWeeks` och `ReferenceDay`.
-| År              | Formaterad som _YYYY_, fast med numersikt värde satt till årets första dag.|
+| Veckodag		  | Veckodag, första veckodag styrs av systemvariabel [_FirstWeekDay_](https://help.qlik.com/sv-SE/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/FirstWeekDay.htm). |
+| Vecka   	      | Veckonummer, presenteras med veckonummer där januari är årets första månad, men sorteras utifrån vad som är årets första månad via systemvariabeln [_FirstMonthOfYear_](https://help.qlik.com/en-US/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/FirstMonthOfYear.htm). Fältet påverkas också av systemvariablerna [_FirstWeekDay_](https://help.qlik.com/sv-SE/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/FirstWeekDay.htm), [_BrokenWeeks_](https://help.qlik.com/en-US/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/BrokenWeeks.htm) och [_ReferenceDay_](https://help.qlik.com/en-US/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/ReferenceDay.htm).
+| År              | Formaterad som _YYYY_, fast med numersikt värde satt till årets första dag. Årets indelning styrs av systemvariabeln [_FirstMonthOfYear_](https://help.qlik.com/en-US/qlikview/April2019/Subsystems/Client/Content/QV_QlikView/Scripting/NumberInterpretationVariables/FirstMonthOfYear.htm)|
 | Månad           | Formaterad som angett i systemvariabeln `MonthNames`.
 | År-månad        | Formaterad som angett i variabeln `vL.kalender.aarmaanadformat`.
 | Kvartal         | 'Q1', 'Q2', 'Q3' eller 'Q4'
@@ -104,12 +104,7 @@ Skapa kalender från ett min och max-datum
 		num(temporärdatum) AS [$(_kalendernyckelfalt)] ,
 		Date(temporärdatum) as [$(_kalendernamn)Datum],
         weekday(temporärdatum, $(FirstWeekDay)) as [$(_kalendernamn)Veckodag],
-		dual( 
-        	week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
-            week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
-            ) as [$(_kalendernamn)Vecka],
-        
-		YearName(temporärdatum) as [$(_kalendernamn)År],
+		YearName(temporärdatum,0,$(FirstMonthOfYear)) as [$(_kalendernamn)År],
 		dual( 
         	week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
             week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
