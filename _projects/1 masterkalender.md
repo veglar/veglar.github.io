@@ -38,6 +38,8 @@ Alla dessa anrop skapar en kalender som innehåller följande fält, med undanta
 | Fält            | Kommentar|
 | --------------- | ----------|
 | Datum           | Formaterad som angett i systemvariabeln `DateFormat`.
+| Veckodag		  | Veckodag, första veckodag styrs av systemvariabel `FirstWeekDay` (0-6). |
+| Vecka   	      | Veckonummer, presenteras med veckonummer där januari är årets första månad, men sorteras utifrån vad som är årets första månad via systemvariabeln `FirstMonthOfYear.` Fältet påverkas också av systemvariablerna `FirstWeekDay`, `BrokenWeeks` och `ReferenceDay`.
 | År              | Formaterad som _YYYY_, fast med numersikt värde satt till årets första dag.|
 | Månad           | Formaterad som angett i systemvariabeln `MonthNames`.
 | År-månad        | Formaterad som angett i variabeln `vL.kalender.aarmaanadformat`.
@@ -76,10 +78,13 @@ Skapa kalender från ett min och max-datum
 	/*
 	* Konfigurering av kalenderparametrar
 	*/
-	LET vL.kalender.aarmaanadformat = if(len($(vL.kalender.aarmaanadformat))=0, 'YYYY MMM', vL.kalender.aarmaanadformat);
-	LET vL.kalender.tabellnamn = if(len($(vL.kalender.tabellnamn))=0, 'Kalender', vL.kalender.tabellnamn);
-	LET vL.kalender.idag= if(len($(vL.kalender.idag))=0, today(), date('$(vL.kalender.idag)'));
-
+	LET vL.kalender.aarmaanadformat = if(len('$(vL.kalender.aarmaanadformat)')=0, 'YYYY MMM', vL.kalender.aarmaanadformat);
+	LET vL.kalender.tabellnamn = if(len('$(vL.kalender.tabellnamn)')=0, 'Kalender', vL.kalender.tabellnamn);
+	LET vL.kalender.idag= if(len('$(vL.kalender.idag)')=0, today(), date('$(vL.kalender.idag)'));
+	LET FirstMonthOfYear= if(len('$(FirstMonthOfYear)')=0, 1, FirstMonthOfYear);
+    LET ReferenceDay= if(len('$(ReferenceDay)')=0, 1, ReferenceDay);
+    LET BrokenWeeks= if(len('$(BrokenWeeks)')=0, 1, BrokenWeeks);
+    LET FirstWeekDay= if(len('$(FirstWeekDay)')=0, 1, FirstWeekDay);
 	/*
 	* Stadfäster nyckelfält i kalendern. 
 	* Använder @param3 _kalendernyckelfalt, om ej definierat så används fältnamnet [%datum] .
@@ -98,8 +103,18 @@ Skapa kalender från ett min och max-datum
 	LOAD
 		num(temporärdatum) AS [$(_kalendernyckelfalt)] ,
 		Date(temporärdatum) as [$(_kalendernamn)Datum],
+        weekday(temporärdatum, $(FirstWeekDay)) as [$(_kalendernamn)Veckodag],
+		dual( 
+        	week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
+            week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
+            ) as [$(_kalendernamn)Vecka],
+        
 		YearName(temporärdatum) as [$(_kalendernamn)År],
-		Month(temporärdatum) as [$(_kalendernamn)Månad],
+		dual( 
+        	week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
+            week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
+            ) as [$(_kalendernamn)Vecka],
+        DUAL(Month(temporärdatum) ,  num(Month(MonthName(temporärdatum, +1- $(FirstMonthOfYear))))) as [$(_kalendernamn)Månad],
 		dual(	date(MonthName(temporärdatum), '$(vL.kalender.aarmaanadformat)'),
 				MonthStart(temporärdatum)
 			) AS [$(_kalendernamn)År-månad],
