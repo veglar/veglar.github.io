@@ -61,9 +61,10 @@ Ett förenklad anropssätt för att skapa en kalender utifrån ett redan inläst
 Metod för att koppla flera datumfält i en tabell till en och samma masterkalender. 
 
 ### Masterkalender.qvs
+Klistra in scriptet nedan i en qvs fil eller direkt i ditt applikationsskript för att använda de tre SUB som beskrivits ovan.
 
 ```qvs
-SUB kalender (_minstaKalenderdatum, _störstaKalenderdatum, _kalendernyckelfalt, _kalendernamn)
+SUB kalender (_minCalendarDate, _maxCalendarDate, _calendarKeyField, _calendarPrefix)
 /**
 Skapa kalender från ett min och max-datum
 @Param 1 Obligatoriskt. [Minsta kalenderdatum] Det datum där kalendern ska börja.
@@ -87,52 +88,70 @@ Skapa kalender från ett min och max-datum
     LET FirstWeekDay= if(len('$(FirstWeekDay)')=0, 1, FirstWeekDay);
 	/*
 	* Stadfäster nyckelfält i kalendern. 
-	* Använder @param3 _kalendernyckelfalt, om ej definierat så används fältnamnet [%datum] .
+	* Använder @param3 _calendarKeyField, om ej definierat så används fältnamnet [%datum] .
 	*/
-	IF 	len(_kalendernyckelfalt)>0 then
-		SET _kalendernyckelfalt = $(_kalendernyckelfalt);
+	IF 	len(_calendarKeyField)>0 then
+		SET _calendarKeyField = $(_calendarKeyField);
 	ELSE
-		SET _kalendernyckelfalt = %datum;
+		SET _calendarKeyField = %datum;
 	ENDIF 
 	
 	/* 
 	* Skapar kalendertabell
 	*/
-	[$(_kalendernamn)$(vL.kalender.tabellnamn)]:
-	NOCONCATENATE
-	LOAD
-		num(temporärdatum) AS [$(_kalendernyckelfalt)] ,
-		Date(temporärdatum) as [$(_kalendernamn)Datum],
-        weekday(temporärdatum, $(FirstWeekDay)) as [$(_kalendernamn)Veckodag],
-		YearName(temporärdatum,0,$(FirstMonthOfYear)) as [$(_kalendernamn)År],
-		dual( 
-        	week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
-            week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
-            ) as [$(_kalendernamn)Vecka],
-        DUAL(Month(temporärdatum) ,  num(Month(MonthName(temporärdatum, +1- $(FirstMonthOfYear))))) as [$(_kalendernamn)Månad],
-		dual(	date(MonthName(temporärdatum), '$(vL.kalender.aarmaanadformat)'),
-				MonthStart(temporärdatum)
-			) AS [$(_kalendernamn)År-månad],
-		'Q'&Num(Ceil(Num(Month(temporärdatum))/3)) as [$(_kalendernamn)Kvartal],
-		Dual(	'Q'&Ceil(month(temporärdatum)/3) & ' ' &Year(temporärdatum), 
-				num(QuarterStart(temporärdatum))
-			)  as [$(_kalendernamn)År-kvartal],
+	[$(_calendarPrefix)$(vL.kalender.tabellnamn)]:
+	NOCONCATENATE LOAD      
+			num( temporärdatum) 								as [$(_calendarKeyField)] ,
+			Date(temporärdatum) 								as [$(_calendarPrefix)Datum],
+			weekday(temporärdatum, $(FirstWeekDay)) 			as [$(_calendarPrefix)Veckodag],
+			YearName(temporärdatum,0,$(FirstMonthOfYear)) 		as [$(_calendarPrefix)År],
+			dual(week([temporärdatum],$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay)),
+					  week(addmonths(temporärdatum,1-$(FirstMonthOfYear)),$(FirstWeekDay) ,$(BrokenWeeks),$(ReferenceDay))
+					  ) 												as [$(_calendarPrefix)Vecka],
+			DUAL(Month(temporärdatum) ,  
+						num(Month(MonthName(temporärdatum, +1- $(FirstMonthOfYear))))
+							)												as [$(_calendarPrefix)Månad],
+			dual( date(MonthName(temporärdatum), '$(vL.kalender.aarmaanadformat)'),
+						MonthStart(temporärdatum)) 					as [$(_calendarPrefix)År-månad],
+			'Q'&Num(Ceil(Num(Month(temporärdatum))/3)) 		as [$(_calendarPrefix)Kvartal],
+			Dual( 'Q'&Ceil(month(temporärdatum)/3) & ' ' &Year(temporärdatum), 
+						num(QuarterStart(temporärdatum)) )  			as [$(_calendarPrefix)År-kvartal],
 		if(temporärdatum  > '$(vL.kalender.idag)', 'Framtid', 'Historik') as [Historik/Framtid]
 		;
 	LOAD
-		Date('$(_minstaKalenderdatum)') + RecNo()-1 AS temporärdatum
-	AUTOGENERATE
-		Date('$(_störstaKalenderdatum)') - Date('$(_minstaKalenderdatum)') + 1;
+				Date('$(_minCalendarDate)') + RecNo()-1 AS temporärdatum
+		AUTOGENERATE 
+				Date('$(_maxCalendarDate)') - Date('$(_minCalendarDate)') + 1;
+
+
+	SET vL.SetModifier.CleanCalender = År, Månad, Datum, [År-månad],Veckodag,Vecka,Kvartal,År-kvartal, [Historik/Framtid];
+
+
+	// Year To Date Modifier
+	Let vL.SetModifier.YTD = 
+	replace(
+		'$(vL.SetModifier.CleanCalender),
+				År=P({<$(vL.SetModifier.CleanCalender), Datum={''$1''}>}År),
+				Datum = {"<=¤(=Date(''$1''))"}', 
+		'¤', '$');	
+
+
+	// Month 2 Date
+	Let vL.SetModifier.Months2Date = 
+	Replace(
+		'$(vL.SetModifier.CleanCalender),
+				Datum={">=¤(=date(rangemin(monthstart(''$1'',alt($2,0)),date(''$1''))))<=¤(=date(rangemax(monthend(''$1'',alt($2,0)),date(''$1''))))"}',
+		'¤','$');	
 
 
 	//Rensar upp lokala variabler
 	LET vL.kalender.aarmaanadformat =;
 	LET vL.kalender.tabellnamn =;
-	LET _störstaKalenderdatum=;
-	LET _minstaKalenderdatum=;
+	LET _maxCalendarDate=;
+	LET _minCalendarDate=;
 ENDSUB  //Kalender
 
-SUB kalenderfrånfält (vL.kalender.nyckelfält, _källa, _kalendernamn)
+SUB kalenderfrånfält (vL.kalender.nyckelfält, _källa, _calendarPrefix)
 
 	// Ta reda på om minmax ska hämtas från specifik resident-tabell, qvd eller textfil.
 	IF len('$(_källa)')=0 THEN
@@ -154,13 +173,13 @@ SUB kalenderfrånfält (vL.kalender.nyckelfält, _källa, _kalendernamn)
 
 	LET vL.kalender.minmaxkälla =;
 	// Byter ut europeisk decimalseperator  ',' så att qlikview förstår att det är ett värde.
-	LET _störstaKalenderdatum = replace(peek('tempKalender.maxdatum'), ',', '.');
-	LET _minstaKalenderdatum = replace(peek('tempKalender.mindatum'), ',', '.');
+	LET _maxCalendarDate = replace(peek('tempKalender.maxdatum'), ',', '.');
+	LET _minCalendarDate = replace(peek('tempKalender.mindatum'), ',', '.');
 	DROP table kalender.minmaxtabell;
 
-	CALL kalender( '$(_minstaKalenderdatum)','$(_störstaKalenderdatum)','$(vL.kalender.nyckelfält)', _kalendernamn )
-	LET _störstaKalenderdatum=;
-	LET _minstaKalenderdatum=;
+	CALL kalender( '$(_minCalendarDate)','$(_maxCalendarDate)','$(vL.kalender.nyckelfält)', _calendarPrefix )
+	LET _maxCalendarDate=;
+	LET _minCalendarDate=;
 ENDSUB
 
 SUB kalenderlänk(vL.kalender.faktatabell, vL.kalender.datumfält, vL.kalender.datumnyckel, vL.kalender.linkID)
@@ -182,9 +201,14 @@ Skapar länkkalender med fälten,
     [Kalenderlänk]:
     CROSSTABLE([Kalender], $(vL.kalender.datumnyckel), 1)
     LOAD DISTINCT
-       $(vL.kalender.linkID),
-       $(vL.kalender.datumfält)
-    RESIDENT [$(vL.kalender.faktatabell)]
+			$(vL.kalender.linkID),
+ 	    $(vL.kalender.datumfält)
+		RESIDENT 
+			[$(vL.kalender.faktatabell)]
     ;
 ENDSUB
 ```
+
+
+
+
