@@ -5,11 +5,19 @@ permalink: /projekt/masterkalender
 ---
 <a class="qlik-icon-edit-script"/>
 # <a class="qicon-calendar"/> Masterkalender
-*En gångbar masterkalender som består av tre olika SUB.*
+Masterkalender är ett återanvändbart masterkalenderskript som kan hantera flera kalenderbehov. Den kan bland annat hantera följand scenarion.
 
-* [SUB kalender](#sub-kalender) 
-* [SUB kalenderfrånfält](#sub-kalenderfrånfält)
-* [SUB kalenderlänk](#sub-kalenderlänk)
+- Ett datumfält en kalender
+- Ett datumfält flera kalendrar (Eg. kalenderår och bokföringsår)
+- Flera datumfält flera kalendrar
+- Flera datumfält en kalender.
+
+Masterkalenderskriptet består av tre SUB-funktioner som du kan läsa mer om nedan.
+
+{% include elements/button.html link="#sub-kalender" text="SUB kalender" %}
+{% include elements/button.html link="#sub-kalenderfrånfält" text="SUB kalenderfrånfält" %}
+{% include elements/button.html link="#sub-kalenderlänk" text="SUB kalenderlänk" %}
+
 
 ### SUB kalender
 Innhåller koden för själva kalendern. Skapar en masterkalender med hjälp av 2-4 parametrar.
