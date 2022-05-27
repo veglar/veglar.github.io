@@ -6,19 +6,15 @@ repository          : veglar/veglar.github.io     # Change to <your-username>/<y
 remote_theme        : YoussefRaafatNasry/portfolYOU
 theme               : #YoussefRaafatNasry/portfolYOU
 
-
 ### Plugins ###
 plugins:
   - jemoji
-
 
 ### Navbar Settings ###
 nav_exclude:                                            # The following paths are excluded from navbar
   - pages/tags.html
   - pages/404.html
   - pages/index.md
-
-
 
 ### Author Info ###
 author:
