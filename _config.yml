@@ -3,7 +3,7 @@ title               : vegar l arntsen
 description         : Senior QlikView och Qlik Sense utvecklare och administratör i Uppsala
 baseurl             : ""    # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : veglar/veglar.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
-remote_theme        : #YoussefRaafatNasry/portfolYOU@v1.0.0
+remote_theme        : YoussefRaafatNasry/portfolYOU
 theme               : #YoussefRaafatNasry/portfolYOU
 
 
