@@ -2,6 +2,7 @@
 
   {% assign title = page.title | default: site.title | escape %}
   {% assign description = page.description | default: site.description | strip_html | strip_newlines | truncate: 160 %}
+  {% assign image = page.image | default: site.author.image %}
 
   {% if page.name and page.collection == 'projects' %}
     {% assign title = page.name | escape %}
@@ -14,25 +15,29 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ title }}">
   <meta property="og:description" content="{{ description }}">
+  <meta property="og:image" content="{{ image }}">
 
   <title>{{ title }}</title>
   <meta name="description" content="{{ description }}">
 
-  
   <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+
+  <!-- Theme style -->
+  <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
 
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.10.0/css/all.css">
-  
-  <!-- Bootstrap-dark CSS CDN -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@forevolve/bootstrap-dark@1.0.0/dist/css/toggle-bootstrap.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@forevolve/bootstrap-dark@1.0.0/dist/css/toggle-bootstrap-dark.min.css" />
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
 
   <!-- Animate CSS CDN -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" type="text/css"/>
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css">
+
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" type="text/css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <!-- Qlik Highlighting -->
   <!-- QlikView syntax -->
   <link href="{{ '/assets/qlik/qlikview.css' | relative_url }}" rel="stylesheet" title="QlikView"></link>
   <link href="{{ '/assets/qlik/qlik-icons.css' | relative_url }}"  rel="stylesheet" title="QlikView"></link>
@@ -41,6 +46,5 @@
     hljs.configure({tabReplace: '    '});
     hljs.initHighlightingOnLoad();
   </script>
+  
 </head>
-
-

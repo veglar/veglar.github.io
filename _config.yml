@@ -1,10 +1,11 @@
 ### Site Settings ###
 title               : vegar l arntsen
-description         : Senior QlikView och Qlik Sense utvecklare och administratör i Uppsala
-baseurl             : # "/portfolYOU"                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
+description         : >-
+                      Senior QlikView och Qlik Sense utvecklare och administratör i Uppsala.
+baseurl             : "" #"/portfolYOU"                     # Change to empty quotes if you are hosting your site at <your-username>.github.io directly
 repository          : veglar/veglar.github.io     # Change to <your-username>/<your-username>.github.io (or remove it if you don't need remote projects)
-remote_theme        : YoussefRaafatNasry/portfolYOU
-theme               : #YoussefRaafatNasry/portfolYOU
+#remote_theme        : YoussefRaafatNasry/portfolYOU
+open_new_tab        : false                             # Opens external URLs in new tab (works for posts, projects and navbar only)
 
 
 ### Plugins ###
@@ -19,27 +20,26 @@ nav_exclude:                                            # The following paths ar
   - pages/index.md
 
 
-
 ### Author Info ###
 author:
   name              : Vegar Lie Arntsen
   image             : https://en.gravatar.com/userimage/2633107/4abbb6a7e036ee10b3b4379218546a29.jpg?size=200
+  github            : veglar
+  linkedin          : vearn
+  twitter           : veglar
 # behance           :  your_username
 # dribbble          : your_username
 #  email             : username@domain.com
-  facebook          : vegar.arntsen
-  github            : veglar
+#  facebook          : vegar.arntsen
 # gitlab            : your_username
 # instagram         : your_username
 # kaggle            : your_username
-  linkedin          : vearn
 # medium            : your_username
 # soundcloud        : your_username
 # spotify           : your_username
 # stackoverflow     : your_user_id
 # tumblr            : your_username.tumblr.com
 # twitch            : your_username
-  twitter           : veglar
 # vimeo             : your_username
 # youtube           : your_channel_name
 # keybase           : your_username
@@ -56,7 +56,6 @@ collections:
     permalink: /projects/:name
 
 
-
 ### Disqus ###
 disqus:
   shortname: your-short-name-disqus                     # Your website Shortname on disqus
@@ -69,6 +68,16 @@ analytics:
     tracking_id: your-google-tracking-id
 
 
+### Buy me a coffee ###
+# See https://www.buymeacoffee.com/
+buymeacoffee:
+  enabled: false
+  username: your_username
+  color: "#007bff"
+  message: "Thank you for visiting."                    # Message to be displayed aside from the button for a few seconds.
+  description: "Support me on Buy me a coffee!"
+
+
 ### Defaults for collections ###
 defaults:
   - scope:
@@ -76,12 +85,12 @@ defaults:
       type: "projects"
     values:
       layout: "page"
-
   - scope:
       path: ""
       type: "posts"
     values:
       comments: false                                   # Set to true to enable disqus comments
+
 
 ### Exclude from processing ###
 exclude:
