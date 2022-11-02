@@ -30,6 +30,12 @@ Innhåller koden för själva kalendern. Skapar en masterkalender med hjälp av 
 
 #### Exempler på anrop
 
+
+```qve
+{% include sublib/data_load_script/sublib.kalender.qvs %}
+```
+
+
 ```qve 
 /* 1. Skapa en kalender med default nyckelfält*/	
 	CALL kalender('2020-01-01', '2021-12-31')
