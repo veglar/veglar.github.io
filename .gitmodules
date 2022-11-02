@@ -1,4 +1,4 @@
-[submodule "_projects/sublib"]
-	path = _includes/sublib
+[submodule "_include/sublib"]
+	path = _include/sublib
 	url = git@github.com:veglar/qliksense-sublib.git
 	branch = main
