@@ -74,3 +74,6 @@ Klistra in scriptet nedan i en qvs fil eller direkt i ditt applikationsskript f�
 ```qve
 {% include sublib/data_load_script/sublib.kalender.qvs %}
 ```
+
+
+Du kan hämta hem en Qlik Sense applikation som demonstrerar denna sub från Github [veglar/qliksense-sublib/releases](https://github.com/veglar/qliksense-sublib/releases)

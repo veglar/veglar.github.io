@@ -26,3 +26,4 @@ SUB rapport används såhär
 ```qvs
 {% include sublib/data_load_script/sublib.rapport.qvs %}
 ```
+Du kan hämta hem en Qlik Sense applikation som demonstrerar denna sub från Github [veglar/qliksense-sublib/releases](https://github.com/veglar/qliksense-sublib/releases)

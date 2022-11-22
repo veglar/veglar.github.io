@@ -21,3 +21,6 @@ call sublib.logg.stop
 ```qve
 {% include sublib/data_load_script/sublib.logg.qvs %}
 ```
+
+
+Du kan hämta hem en Qlik Sense applikation som demonstrerar denna sub från Github [veglar/qliksense-sublib/releases](https://github.com/veglar/qliksense-sublib/releases)
