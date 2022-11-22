@@ -20,7 +20,7 @@ SUB rapport används såhär
     3. Vilket grupp som avses
 
 ```qvs
-{% include sublib/data_load_script/sublib.rapport.test %}
+{% include sublib/data_load_script/sublib.rapport.test.qvs %}
 ```
 
 ```qvs
