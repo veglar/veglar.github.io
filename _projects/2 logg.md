@@ -24,3 +24,5 @@ call sublib.logg.stop
 
 
 Du kan hämta hem en Qlik Sense applikation som demonstrerar denna sub från Github [veglar/qliksense-sublib/releases](https://github.com/veglar/qliksense-sublib/releases)
+
+Hittar du fel eller ser förbättringsmöjligheter i koden så lägg gärna ett ärende här: [https://github.com/veglar/qliksense-sublib/issues](https://github.com/veglar/qliksense-sublib/issues)
