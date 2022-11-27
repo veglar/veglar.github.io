@@ -5,7 +5,7 @@ permalink: /projekt/rapport
 ---
 
 # <a class="qicon-data-load"/> Rapport
-Sublib Rapport är en sub som jag använder för att på ett snabbt sätt kunna skapa en rapporttabell som kopplar rubrik till ett urval konton (eller annat numerisk nycke). Typiska användsingområden är att skapa resultaträkning, balansräkning eller annan kpi-rapport.
+Sublib Rapport är en sub som jag använder för att på ett snabbt sätt kunna skapa en rapporttabell som kopplar rubrik till ett urval numeriska värden. Typiska användsingområden är att skapa resultaträkning, balansräkning eller annan kpi-rapport där rubrik kopplas till kontonummer.
 
 I sin enklaste form kan sub rapport användas för att koppla ett konto till en rubrik, men det finns även stöd för överlappande rubriker. T.ex. konton kopplas till materialkostnader eller personalkostnader, men även den överggripande rubriken  _kostnader_ samt bidra i beräkningen av "täckningsbidraget".
 
