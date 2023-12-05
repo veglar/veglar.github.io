@@ -1,25 +1,25 @@
 ---
 name: Logg
 image: /assets/img/2022/Brown_Chop_Logs_on_Outdoor.jpg
-permalink: /projekt/logg
+permalink: /projekt/log
 ---
 
-# <a class="qicon-data-load"/> Logg
+# <a class="qicon-data-load"/> Log
 
 Logg  är ett återanvändbart qlikskript som kan logga skriptaktiviteter i flera nivåer. 
 
 #### Exempler på anrop
 
 ```qve 
-call sublib.logg.start('Ladda databaser')
+call sublib.log.start('Ladda databaser')
   //Skript som laddar databaser
-call sublib.logg.stop      
+call sublib.log.stop      
 ```
 
 ### Logg.qvs
 
 ```qve
-{% include sublib/data_load_script/sublib.logg.qvs %}
+{% include sublib/data_load_script/sublib.log.qvs %}
 ```
 
 
