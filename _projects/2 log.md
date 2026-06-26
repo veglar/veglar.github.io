@@ -20,10 +20,10 @@ call log('The seconde and final log entry')
 ### Log.qvs
 
 ```qve
-{% include sublib/data_load_script/sublib.log.qvs %}
+{% include sublib/data_load_script/sublib.logg.qvs %}
 ```
 
 
-You can download a Qlik Sense application that demonstrates this sub from Github [veglar/qliksense-sublib/releases](httpshttps://github.com/veglar/qliksense-sublib/releases)
+You can download a Qlik Sense application that demonstrates this sub from Github [veglar/qliksense-sublib/releases](https://github.com/veglar/qliksense-sublib/releases)
 
 If you find errors or see opportunities for improvement in the code, please file an issue here: [https://github.com/veglar/qliksense-sublib/issues](https://github.com/veglar/qliksense-sublib/issues)
